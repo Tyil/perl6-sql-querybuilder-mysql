@@ -1,0 +1,21 @@
+{
+  "authors": "Patrick Spek <p.spek@tyil.work>",
+  "depends": [
+    
+  ],
+  "description": "The MySQL driver for SQL::QueryBuilder",
+  "license": "GPL-3.0",
+  "meta-version": 0,
+  "name": "SQL::QueryBuilder::MySQL",
+  "perl": "6.c",
+  "provides": {
+    
+  },
+  "resources": [
+    
+  ],
+  "tags": [
+    
+  ],
+  "version": "0.0.0"
+}
