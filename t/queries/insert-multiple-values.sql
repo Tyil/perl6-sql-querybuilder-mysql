@@ -1,0 +1,1 @@
+INSERT INTO `analytics_access` (`method`,`user_agent`,`timestamp`,`status`,`path`,`bytes_sent`,`referer`,`remote_addr`,`proto`) VALUES ("https","yes","today","p good","/",512,"tyil","127.1","HTTP/2.0"),("http","no","tomorrow","p good","/some-file.html",256,"blackchaosnl","127.1","HTTP/2.0");
