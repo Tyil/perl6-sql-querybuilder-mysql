@@ -10,6 +10,12 @@ class SQL::QueryBuilder::MySQL
 		"`$column`"
 	}
 
+	#| Escape a table name for safe use in a MySQL query.
+	method escape-table(Any:D $table)
+	{
+		"`$table`"
+	}
+
 	#| Escape a value to be safe for use in a MySQL query.
 	multi method escape-value(Any:D $value)
 	{
