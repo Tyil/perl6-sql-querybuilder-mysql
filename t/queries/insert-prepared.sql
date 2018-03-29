@@ -1,1 +1,1 @@
-INSERT INTO `analytics_access` (`bytes-sent`, `method`, `path`, `proto`, `referer`, `remote_addr`, `status`, `timestamp`, `user_agent`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
+INSERT INTO `analytics_access` (`bytes-sent`,`method`,`path`,`proto`,`referer`,`remote_addr`,`status`,`timestamp`,`user_agent`) VALUES (?,?,?,?,?,?,?,?,?);

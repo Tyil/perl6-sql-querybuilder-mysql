@@ -4,10 +4,12 @@ use v6.c;
 
 use SQL::QueryBuilder::MySQL;
 
+constant base = SQL::QueryBuilder::MySQL;
+
 class SQL::QueryBuilder::MySQL::Insert
 {
 	has $.table;
-	has SetHash $.columns;
+	has @.columns;
 	has @.records;
 
 	#| Set the table name to insert into.
@@ -23,9 +25,7 @@ class SQL::QueryBuilder::MySQL::Insert
 	method columns(
 		*@columns, #= Any number of columns.
 	) {
-		for @columns -> $column {
-			$!columns{~$column}++;
-		}
+		@!columns.push: |@columns;
 
 		self;
 	}
@@ -37,8 +37,6 @@ class SQL::QueryBuilder::MySQL::Insert
 		my %record;
 
 		for @pairs -> $pair {
-			$!columns{~$pair.key}++;
-
 			%record{$pair.key} = $pair.value;
 		}
 
@@ -50,32 +48,43 @@ class SQL::QueryBuilder::MySQL::Insert
 	#| Translate the Insert statement into a usable SQL query.
 	method Str()
 	{
-		my @sorted-columns = $!columns.keys.sort;
-		my @values;
+		return self!Str-insert(@!columns) if @!records;
+		return self!Str-prepare(@!columns);
+	}
 
-		my Str $sql = "INSERT INTO `$!table` ({@sorted-columns.map("`" ~ *.Str ~ "`").join(', ')}) VALUES";
+	method !Str-insert(@columns is copy)
+	{
+		if (!@columns) {
+			die "Need at least a set of columns or a set of records" if !@!records;
 
-		if (@.records) {
-			for @.records -> %record {
-				my @record-values;
-
-				for @sorted-columns -> $column {
-					@record-values.push: SQL::QueryBuilder::MySQL.escape-value(%record{$column});
-				}
-
-				@values.push: @record-values.join(', ');
-			}
-		} else {
-			my @record-values;
-
-			for ^$!columns {
-				@record-values.push: '?';
-			}
-
-			@values.push: @record-values.join(', ');
+			@columns = @!records[0].keys;
 		}
 
-		"$sql @values.map("(" ~ *.Str ~ ")").join(', ');";
+		my @records;
+
+		for @!records -> %record {
+			my @record;
+
+			for @columns -> $column {
+				@record.push: SQL::QueryBuilder::MySQL.escape-value(%record{$column});
+			}
+
+			@records.push: @record.join(',');
+		}
+
+		my Str $record-string = @records.map(sub ($r) { "($r)" }).join(',');
+		my Str $column-string = @columns.map(sub ($c) { base.escape-column($c) }).join(',');
+
+		"INSERT INTO `$!table` ($column-string) VALUES $record-string;";
+	}
+
+	method !Str-prepare(@columns is copy)
+	{
+		die "Need a set of columns to prepare a query" if !@columns;
+		my Str $record-string = ('?' xx @columns.elems).join(',');
+		my Str $column-string = @columns.map(sub ($c) { base.escape-column($c) }).join(',');
+
+		"INSERT INTO `$!table` ($column-string) VALUES ($record-string);";
 	}
 }
 

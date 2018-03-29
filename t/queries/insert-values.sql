@@ -1,1 +1,1 @@
-INSERT INTO `analytics_access` (`bytes_sent`, `method`, `path`, `proto`, `referer`, `remote_addr`, `status`, `timestamp`, `user_agent`) VALUES (512, "https", "/", "HTTP/2.0", "tyil", "127.1", "p good", "today", "yes");
+INSERT INTO `analytics_access` (`method`,`user_agent`,`timestamp`,`status`,`path`,`bytes_sent`,`referer`,`remote_addr`,`proto`) VALUES ("https","yes","today","p good","/",512,"tyil","127.1","HTTP/2.0");

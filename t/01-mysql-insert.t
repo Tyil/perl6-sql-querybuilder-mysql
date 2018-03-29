@@ -13,14 +13,14 @@ subtest "Simple insert query" => {
 	my $query = qb("mysql", "insert")
 		.into("analytics_access")
 		.record(
-			"remote_addr" => "127.1",
-			"timestamp" => "today",
+			"bytes_sent" => 512,
 			"method" => "https",
 			"path" => "/",
 			"proto" => "HTTP/2.0",
-			"status" => "p good",
-			"bytes_sent" => 512,
 			"referer" => "tyil",
+			"remote_addr" => "127.1",
+			"status" => "p good",
+			"timestamp" => "today",
 			"user_agent" => "yes",
 		);
 
@@ -33,14 +33,14 @@ subtest "Prepared insert query" => {
 	my $query = qb("mysql", "insert")
 		.into("analytics_access")
 		.columns(
-			"remote_addr",
-			"timestamp",
+			"bytes-sent",
 			"method",
 			"path",
 			"proto",
-			"status",
-			"bytes-sent",
 			"referer",
+			"remote_addr",
+			"status",
+			"timestamp",
 			"user_agent",
 		);
 
