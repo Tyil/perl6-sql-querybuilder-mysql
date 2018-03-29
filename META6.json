@@ -10,7 +10,8 @@
   "perl": "6.c",
   "provides": {
     "SQL::QueryBuilder::MySQL": "lib/SQL/QueryBuilder/MySQL.pm6",
-    "SQL::QueryBuilder::MySQL::Insert": "lib/SQL/QueryBuilder/MySQL/Insert.pm6"
+    "SQL::QueryBuilder::MySQL::Insert": "lib/SQL/QueryBuilder/MySQL/Insert.pm6",
+    "SQL::QueryBuilder::MySQL::Select": "lib/SQL/QueryBuilder/MySQL/Select.pm6"
   },
   "resources": [
     
