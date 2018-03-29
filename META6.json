@@ -1,7 +1,7 @@
 {
   "authors": "Patrick Spek <p.spek@tyil.work>",
   "depends": [
-    
+    "SQL::QueryBuilder"
   ],
   "description": "The MySQL driver for SQL::QueryBuilder",
   "license": "GPL-3.0",
@@ -10,13 +10,16 @@
   "perl": "6.c",
   "provides": {
     "SQL::QueryBuilder::MySQL": "lib/SQL/QueryBuilder/MySQL.pm6",
-    "SQL::QueryBuilder::MysQL::Insert": "lib/SQL/QueryBuilder/MySQL/Insert.pm6"
+    "SQL::QueryBuilder::MySQL::Insert": "lib/SQL/QueryBuilder/MySQL/Insert.pm6"
   },
   "resources": [
     
   ],
   "tags": [
     
+  ],
+  "test-depends": [
+    "JSON::Fast"
   ],
   "version": "0.0.0"
 }
