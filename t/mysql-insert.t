@@ -2,18 +2,17 @@
 
 use v6.c;
 
-use SQL::QueryBuilder::MySQL;
+use SQL::QueryBuilder::MySQL::Insert;
 use Test;
 
 plan 2;
 
-constant qb = SQL::QueryBuilder::MySQL;
+constant qb = SQL::QueryBuilder::MySQL::Insert;
 
 subtest "Simple insert query" => {
 	plan 1;
 
-	my $query = qb.type("insert")
-		.into("analytics_access")
+	my $query = qb.new.into("analytics_access")
 		.record(
 			"remote_addr" => "127.1",
 			"timestamp" => "today",
@@ -32,8 +31,7 @@ subtest "Simple insert query" => {
 subtest "Prepared insert query" => {
 	plan 1;
 
-	my $query = qb.type("insert")
-		.into("analytics_access")
+	my $query = qb.new.into("analytics_access")
 		.columns(
 			"remote_addr",
 			"timestamp",
