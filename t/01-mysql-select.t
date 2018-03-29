@@ -1,18 +1,16 @@
 #! /usr/bin/env perl6
 
 use v6.c;
+
+use SQL::QueryBuilder;
 use Test;
 
 plan 8;
 
-use SQL::QueryBuilder::MySQL;
-
-constant qb = SQL::QueryBuilder::MySQL;
-
 subtest "Simple select query", {
 	plan 1;
 
-	$query = qb.type("select")
+	my $query = qb("mysql", "select")
 		.from("test")
 		.select("column")
 		;
@@ -21,7 +19,7 @@ subtest "Simple select query", {
 }
 
 subtest "Select with AS clause", {
-	$query = qb.type("select")
+	my $query = qb("mysql", "select")
 		.from("test")
 		.select-as("column" => "other_name")
 		;
@@ -30,7 +28,7 @@ subtest "Select with AS clause", {
 }
 
 subtest "Select with multiple select clauses", {
-	$query = qb.type("select")
+	my $query = qb("mysql", "select")
 		.from("test")
 		.select("test_column")
 		.select("yet_another_column", "foo", "bar")
@@ -41,7 +39,7 @@ subtest "Select with multiple select clauses", {
 }
 
 subtest "Select with WHERE clause", {
-	$query = qb.type("select")
+	my $query = qb("mysql", "select")
 		.from("test")
 		.where("column", "a")
 		;
@@ -50,7 +48,7 @@ subtest "Select with WHERE clause", {
 }
 
 subtest "Select with ORDER BY clause", {
-	$query = qb.type("select")
+	my $query = qb("mysql", "select")
 		.from("test")
 		.order-by("created_at")
 		;
@@ -59,7 +57,7 @@ subtest "Select with ORDER BY clause", {
 }
 
 subtest "Select with LIMIT to skip results", {
-	$query = qb.type("select")
+	my $query = qb("mysql", "select")
 		.from("test")
 		.skip(5)
 		;
@@ -68,7 +66,7 @@ subtest "Select with LIMIT to skip results", {
 }
 
 subtest "Select with LIMIT to grab a limited set of results", {
-	$query = qb.type("select")
+	my $query = qb("mysql", "select")
 		.from("test")
 		.take(10)
 		;
@@ -77,7 +75,7 @@ subtest "Select with LIMIT to grab a limited set of results", {
 }
 
 subtest "Select with LIMIT both skipping and limiting the resultselt", {
-	$query = qb.type("select")
+	my $query = qb("mysql", "select")
 		.from("test")
 		.skip(5)
 		.take(10)
