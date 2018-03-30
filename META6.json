@@ -11,7 +11,10 @@
   "provides": {
     "SQL::QueryBuilder::MySQL": "lib/SQL/QueryBuilder/MySQL.pm6",
     "SQL::QueryBuilder::MySQL::Insert": "lib/SQL/QueryBuilder/MySQL/Insert.pm6",
-    "SQL::QueryBuilder::MySQL::Select": "lib/SQL/QueryBuilder/MySQL/Select.pm6"
+    "SQL::QueryBuilder::MySQL::Roles::Escaper": "lib/SQL/QueryBuilder/MySQL/Roles/Escaper.pm6",
+    "SQL::QueryBuilder::MySQL::Roles::Stringifier": "lib/SQL/QueryBuilder/MySQL/Roles/Stringifier.pm6",
+    "SQL::QueryBuilder::MySQL::Select": "lib/SQL/QueryBuilder/MySQL/Select.pm6",
+    "SQL::QueryBuilder::MySQL::Update": "lib/SQL/QueryBuilder/MySQL/Update.pm6"
   },
   "resources": [
     

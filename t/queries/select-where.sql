@@ -1,1 +1,1 @@
-SELECT * FROM `test` WHERE `column` = "a";
+SELECT * FROM `test` WHERE `column`="a";
