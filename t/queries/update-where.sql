@@ -1,1 +1,1 @@
-INSERT INTO `shitty_table` SET `bytes_sent`=512 WHERE `id`=18;
+UPDATE `shitty_table` SET `bytes_sent`=256 WHERE `id`=18;

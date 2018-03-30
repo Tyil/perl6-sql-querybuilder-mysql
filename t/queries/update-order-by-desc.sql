@@ -1,1 +1,1 @@
-INSERT INTO `shitty_table` SET `bytes_sent`=512 ORDER BY `id` DESC;
+UPDATE `shitty_table` SET `bytes_sent`=256 ORDER BY `id` DESC;

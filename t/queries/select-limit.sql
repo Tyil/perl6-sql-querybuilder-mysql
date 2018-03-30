@@ -1,1 +1,1 @@
-SELECT * FROM `test` LIMIT 5, 10;
+SELECT * FROM `test` LIMIT 10 OFFSET 5;

@@ -2,102 +2,41 @@
 
 use v6.c;
 
-use SQL::QueryBuilder::MySQL::Select;
+use SQL::QueryBuilder;
 use Test;
-
-constant q = SQL::QueryBuilder::MySQL::Select;
 
 plan 8;
 
-subtest "Simple select query", {
-	plan 1;
+is qb("mysql", "select").table("test").column("column").Str,
+	slurp("t/queries/select.sql").chomp,
+	"Simple select query";
 
-	my $query = q.new
-		.from("test")
-		.select("column")
-		;
+is qb("mysql", "select").from("test").select("column" => "other_name").Str,
+	slurp("t/queries/select-as.sql").chomp,
+	"Select with AS clause";
 
-	is ~$query, slurp("t/queries/select.sql")
-}
+is qb("mysql", "select").from("test").select("test_column").select("yet_another_column", "foo", "bar").select("column" => "other_name").Str,
+	slurp("t/queries/select-multiple.sql").chomp,
+	"Select with multiple select clauses";
 
-subtest "Select with AS clause", {
-	plan 1;
+is qb("mysql", "select").from("test").where("column", "a").Str,
+	slurp("t/queries/select-where.sql").chomp,
+	"Select with WHERE clause";
 
-	my $query = q.new
-		.from("test")
-		.select("column" => "other_name")
-		;
+is qb("mysql", "select").from("test").order-by("created_at").Str,
+	slurp("t/queries/select-order-by.sql").chomp,
+	"Select with ORDER BY clause";
 
-	is ~$query, slurp("t/queries/select-as.sql")
-}
+is qb("mysql", "select").from("test").skip(5).Str,
+	slurp("t/queries/select-skip.sql").chomp,
+	"Select with LIMIT to skip results";
 
-subtest "Select with multiple select clauses", {
-	plan 1;
+is qb("mysql", "select").from("test").take(10).Str,
+	slurp("t/queries/select-take.sql").chomp,
+	"Select with LIMIT to grab a limited set of results";
 
-	my $query = q.new
-		.from("test")
-		.select("test_column")
-		.select("yet_another_column", "foo", "bar")
-		.select("column" => "other_name")
-		;
-
-	is ~$query, slurp("t/queries/select-multiple.sql")
-}
-
-subtest "Select with WHERE clause", {
-	plan 1;
-
-	my $query = q.new
-		.from("test")
-		.where("column", "a")
-		;
-
-	is ~$query, slurp("t/queries/select-where.sql")
-}
-
-subtest "Select with ORDER BY clause", {
-	plan 1;
-
-	my $query = q.new
-		.from("test")
-		.order-by("created_at")
-		;
-
-	is ~$query, slurp("t/queries/select-order-by.sql")
-}
-
-subtest "Select with LIMIT to skip results", {
-	plan 1;
-
-	my $query = q.new
-		.from("test")
-		.skip(5)
-		;
-
-	is ~$query, slurp("t/queries/select-skip.sql")
-}
-
-subtest "Select with LIMIT to grab a limited set of results", {
-	plan 1;
-
-	my $query = q.new
-		.from("test")
-		.take(10)
-		;
-
-	is ~$query, slurp("t/queries/select-take.sql")
-}
-
-subtest "Select with LIMIT both skipping and limiting the resultselt", {
-	plan 1;
-
-	my $query = q.new
-		.from("test")
-		.skip(5)
-		.take(10)
-		;
-
-	is ~$query, slurp("t/queries/select-limit.sql")
-}
+is qb("mysql", "select").from("test").skip(5).take(10).Str,
+	slurp("t/queries/select-limit.sql").chomp,
+	"Select with LIMIT both skipping and limiting the resultset";
 
 # vim: ft=perl6 noet
