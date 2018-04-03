@@ -7,79 +7,24 @@ use Test;
 
 plan 5;
 
-subtest "Simple update query" => {
-	plan 1;
+is qb("mysql", "update").table("shitty_table").set("bytes_sent" => 512),
+	slurp("t/queries/update-simple.sql").chomp,
+	"Simple update query";
 
-	my $query = qb("mysql", "update")
-		.table("shitty_table")
-		.set(
-			"bytes_sent" => 512,
-		)
-		;
+is qb("mysql", "update").table("shitty_table").set("bytes_sent" => 256).where("id" => 18),
+	slurp("t/queries/update-where.sql").chomp,
+	"Update query with WHERE";
 
-	is ~$query, slurp("t/queries/update-simple.sql").chomp;
-};
+is qb("mysql", "update").table("shitty_table").set("bytes_sent" => 256).order-by("id"),
+	slurp("t/queries/update-order-by.sql").chomp,
+	"Update query with ORDER BY";
 
-subtest "Update query with WHERE" => {
-	plan 1;
+is qb("mysql", "update").table("shitty_table").set("bytes_sent" => 256).order-by("id" => "DESC"),
+	slurp("t/queries/update-order-by-desc.sql").chomp,
+	"Update query with ORDER BY DESC";
 
-	my $query = qb("mysql", "update")
-		.table("shitty_table")
-		.set(
-			"bytes_sent" => 256,
-		)
-		.where(
-			"id" => 18,
-		)
-		;
-
-	is ~$query, slurp("t/queries/update-where.sql").chomp;
-}
-
-subtest "Update query with ORDER BY" => {
-	plan 1;
-
-	my $query = qb("mysql", "update")
-		.table("shitty_table")
-		.set(
-			"bytes_sent" => 256,
-		)
-		.order-by(
-			"id",
-		)
-		;
-
-	is ~$query, slurp("t/queries/update-order-by.sql").chomp;
-}
-
-subtest "Update query with ORDER BY DESC" => {
-	plan 1;
-
-	my $query = qb("mysql", "update")
-		.table("shitty_table")
-		.set(
-			"bytes_sent" => 256,
-		)
-		.order-by(
-			"id" => "DESC",
-		)
-		;
-
-	is ~$query, slurp("t/queries/update-order-by-desc.sql").chomp;
-}
-
-subtest "Update query with LIMIT" => {
-	plan 1;
-
-	my $query = qb("mysql", "update")
-		.table("shitty_table")
-		.set(
-			"bytes_sent" => 256,
-		)
-		.limit(9)
-		;
-
-	is ~$query, slurp("t/queries/update-limit.sql").chomp;
-}
+is qb("mysql", "update").table("shitty_table").set("bytes_sent" => 256).limit(9),
+	slurp("t/queries/update-limit.sql").chomp,
+	"Update query with LIMIT";
 
 # vim: ft=perl6 noet
